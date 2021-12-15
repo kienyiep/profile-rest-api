@@ -2,9 +2,15 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
+"""The token authentication is the type of the authentication for the user to authenticate themselve with our API, it works by generating a random token string when the user log in
+and then every request we make to their API that we need to authenticate, we add this token string to the request, and that is effectively a password to check that every request made is authenticated correctly """
+from rest_framework.authentication import TokenAuthentication
 """the status object from the rest framework is a list of handly http status codes that you can use when returning responses from your API."""
 from profiles_api import serializers
 """We will use this to tell the API what data to expect while making post,put and patch to our requests to our api"""
+from profiles_api import models
+from profiles_api import permissions
+
 class HelloApiView(APIView):
     """Test API View"""
     serializer_class = serializers.HelloSerializer
@@ -90,3 +96,16 @@ class HelloViewSet(viewsets.ViewSet):
     def destroy(self,request,pk=None):
         """Handle removing an object"""
         return Response({'http_method': 'DELETE'})
+
+"""The way you using the ModelViewSet is you connect it up to a serializer class"""
+class UserProfileViewSet(viewsets.ModelViewSet):
+    """Handle creating and updating profiles"""
+    serializer_class = serializers.UserProfileSerializer
+    """The query set will be provided to the modelViewSet so it knows which object in the database are going to be managed through this view set"""
+    """The django knows the functions that you want to perform on a model view set,
+    which are the create function, list function, update, partial_update and destroy to manage specific model objects in the database. """
+    """django framework take care all of this for us just by assigning the serializer class """
+    queryset= models.UserProfile.objects.all()
+    authentication_classes=(TokenAuthentication,)
+    permission_classes = (permissions.UpdateOwnProfile,)
+    """The permission classes is set to see whether the user gets permission to do certain things  """

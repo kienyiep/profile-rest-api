@@ -12,11 +12,11 @@ Django handle the relationship between the model and the database for us so we n
 class UserProfileManager(BaseUserManager):
     """Manager for user profile"""
 
-    def create_user(self,email,name,password =None):
+    def create_user(self,email,name,password=None):
         """Create a new user profile"""
         if not email:
             raise ValueError('User must have an email address')
-            
+
         email = self.normalize_email(email)
         user = self.model(email=email, name=name)
 

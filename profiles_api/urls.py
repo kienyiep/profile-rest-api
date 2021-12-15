@@ -11,9 +11,12 @@ router = DefaultRouter()
 """Becsue the router will create all the four URLs for us, we dont need to specify a forward slash, when we define our view set URL name"""
 """The base name will be used to retrieve the URL in our router if we ever need to do that using the URL retrieving function provided by django """
 router.register('hello-viewset', views.HelloViewSet, base_name='hello-viewset')
+"""At here we dont need the base name argument, this is because a queryset in the UserProfileViewSet,
+which can allow the django rest framework to figure out the name from the model """
+router.register('profile', views.UserProfileViewSet)
 urlpatterns=[
-path('hello-view/', views.HelloApiView.as_view()),
-path('',include(router.urls))
+    path('hello-view/', views.HelloApiView.as_view()),
+    path('',include(router.urls))
 ]
 """ So as we register the new route with our router, it generates a list of URLs that are associated for our view set it figures out the URLs """
 """that are required for all of the functions that we add to our view set and then it generates this URL list"""
