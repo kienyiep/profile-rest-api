@@ -6,6 +6,7 @@ from rest_framework import viewsets
 and then every request we make to their API that we need to authenticate, we add this token string to the request, and that is effectively a password to check that every request made is authenticated correctly """
 from rest_framework.authentication import TokenAuthentication
 """the status object from the rest framework is a list of handly http status codes that you can use when returning responses from your API."""
+from rest_framework import filters
 from profiles_api import serializers
 """We will use this to tell the API what data to expect while making post,put and patch to our requests to our api"""
 from profiles_api import models
@@ -109,3 +110,6 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     authentication_classes=(TokenAuthentication,)
     permission_classes = (permissions.UpdateOwnProfile,)
     """The permission classes is set to see whether the user gets permission to do certain things  """
+    filter_backends = (filters.SearchFilter,)
+    """This will mean that the django rest framework will allow us to search for items in this view set by the name or email field"""
+    search_fields = ('name','email', )
