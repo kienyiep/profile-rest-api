@@ -2,6 +2,9 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from profiles_api import views
 
+
+"""token authentication"""
+
 """view set use the router to generate the different route which are available for our view set,
 with the view set you may be accessing the list request which is just the route of our API
 In this case, you would use a different URL then if you are accessing a specific object to do an update, delete, or a get  """
@@ -16,6 +19,7 @@ which can allow the django rest framework to figure out the name from the model 
 router.register('profile', views.UserProfileViewSet)
 urlpatterns=[
     path('hello-view/', views.HelloApiView.as_view()),
+    path('login/', views.UserLoginApiView.as_view()),
     path('',include(router.urls))
 ]
 """ So as we register the new route with our router, it generates a list of URLs that are associated for our view set it figures out the URLs """

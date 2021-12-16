@@ -7,6 +7,8 @@ and then every request we make to their API that we need to authenticate, we add
 from rest_framework.authentication import TokenAuthentication
 """the status object from the rest framework is a list of handly http status codes that you can use when returning responses from your API."""
 from rest_framework import filters
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.settings import api_settings
 from profiles_api import serializers
 """We will use this to tell the API what data to expect while making post,put and patch to our requests to our api"""
 from profiles_api import models
@@ -113,3 +115,9 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,)
     """This will mean that the django rest framework will allow us to search for items in this view set by the name or email field"""
     search_fields = ('name','email', )
+
+"""token authentication will generate a random string when you login and then every request you made to the API that you wish yo authenticate, you include the token in the header"""
+class UserLoginApiView(ObtainAuthToken):
+      """Handle creating user authentication tokens"""
+      renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
+      """this will add the renderer class to our obtain auth token view which will enable it in the django admin, as the auth token doesn't have the renderer class by default so we need to add it manually"""
