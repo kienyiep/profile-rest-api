@@ -9,6 +9,10 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
+"""This will ensure that the viewset is read only if the user is not authenticated"""
+"""from rest_framework.permissions import IsAuthenticatedOrReadOnly"""
+"""We use IsAuthenticated only which will block access to the entire endpoint unless the user is authenticated, only the authenticated user can view it"""
+from rest_framework.permissions import IsAuthenticated
 from profiles_api import serializers
 """We will use this to tell the API what data to expect while making post,put and patch to our requests to our api"""
 from profiles_api import models
@@ -121,3 +125,19 @@ class UserLoginApiView(ObtainAuthToken):
       """Handle creating user authentication tokens"""
       renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
       """this will add the renderer class to our obtain auth token view which will enable it in the django admin, as the auth token doesn't have the renderer class by default so we need to add it manually"""
+
+class UserProfileFeedViewSet(viewsets.ModelViewSet):
+    """Handle  creating, reading and updating profiles feed items"""
+    authentication_classes =(TokenAuthentication, )
+    serializer_class = serializers.ProfileFeedItemSerializer
+    """So we will manage all of our profile feed item objects from our model in our view set"""
+    queryset = models.ProfileFeedItem.objects.all()
+    """So this set up a basic model viewset that allow us to create and manage feed item objects in the database"""
+    permission_classes = (
+        permissions.UpdateOwnStatus,
+        IsAuthenticated
+    )
+
+    def perform_create(self,serializer):
+            """Set the user profile to the logged in user"""
+            serializer.save(user_profile= self.request.user)

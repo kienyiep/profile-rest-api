@@ -23,3 +23,12 @@ class UpdateOwnProfile(permissions.BasePermission):
         """If the user try to do a HTTP PUT to update an object
         we will need to check whether the object which will be
         updating matches to the user authenticated user profile that is added to the authentication of the request"""
+
+class UpdateOwnStatus(permissions.BasePermission):
+    """Allow users to update their own status"""
+    def has_object_permission(self, request, view, obj):
+        """Check the user is trying to update their own status"""
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        return obj.user_profile.id  == request.user.id

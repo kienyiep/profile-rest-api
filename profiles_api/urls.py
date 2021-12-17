@@ -17,6 +17,7 @@ router.register('hello-viewset', views.HelloViewSet, base_name='hello-viewset')
 """At here we dont need the base name argument, this is because a queryset in the UserProfileViewSet,
 which can allow the django rest framework to figure out the name from the model """
 router.register('profile', views.UserProfileViewSet)
+router.register('feed', views.UserProfileFeedViewSet)
 urlpatterns=[
     path('hello-view/', views.HelloApiView.as_view()),
     path('login/', views.UserLoginApiView.as_view()),

@@ -36,3 +36,15 @@ class UserProfileSerializer(serializers.ModelSerializer):
         )
 
         return user
+
+class ProfileFeedItemSerializer(serializers.ModelSerializer):
+    """Serialize profile feed items"""
+    class Meta:
+        model = models.ProfileFeedItem
+        """We dont want the user to set the user_profile when they create a new feed item, we want the user profile based on the user that is authenticated
+           so we dont want one user able to create a new profile feed item and assign that to another user because it will cause security flaw in the system
+           Therefore, we will set this user_profile to the authenticated user and we will make the user profile field read only
+           So when we list the object, we can see which users created which feed items, but when we create object,
+           it can only be assigned to the current user that is authenticated"""
+        fields = ('id','user_profile','status_text','created_on')
+        extra_kwargs={'user_profile':{'read_only':True}}

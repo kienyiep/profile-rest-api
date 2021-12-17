@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
+from django.conf import settings
+"""retrieve the setting from the setting.py file in the profiles_project folder,
+the particular setting that we are going to retrieve is the AUTH_USER_MODEL"""
+
 
 """Django we use models to describe the data we need for our app ,
 django will use the models to set up and configure our database to store our data effectively
@@ -64,6 +68,20 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
+class ProfileFeedItem(models.Model):
+    """The user profile is the profile that that owns or created the profile feed item"""
+    user_profile = models.ForeignKey(
+
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+
+    status_text= models.CharField(max_length=255)
+
+    created_on = models.DateTimeField(auto_now_add=True)
 
 
+    def __str__(self):
+
+        return self.status_text
 # Create your models here.
