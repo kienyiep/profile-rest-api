@@ -23,7 +23,29 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'irov%c3wn78uylxsb#l&la%-h&$0f@!v*h_kduaru8hg8$eyc)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# we will need to disable the debug mode, never run the server in the debug mode when it is publictly accessible.
+# it is fine when you run it on your local machine because it is unlikely that anyone else is going to be able to connect to the server.
+# but you should never run it when it is on a publictly accessible server because it open you up to the vulnerabilities.
+# when you run the server in debug mode, that means if there is any error or exeption in the API, it will return a full stack trace on the screen.
+# this will reveal the secret information like django secret file or other things that will make your server vulnerable.
+# so it is the best prective to disable the debug mode.
+
+#because we want to run  debug mode when we run the server on our vagrant sever.
+# but we want to disable it when we run it on the live server.
+# so we are going to add some logic here to pull in the configuration from an environemnt variable.
+
+# what this code does ,is it pulls in the value of the environemnt variable called debug,
+# which is set in the supervisor_profiles_api.conf, you can see the supervisor at the top of the configuration when we set environment = DEBUG = 0
+# which mena it set the debug environment variable to 0 when we run our application.
+
+# so when we pull in this debug variable, we will get a 0 and then by default all environment variables are strings,
+# so there is no way to specify integer as an environment variable so we need to use the int function to convert the string of a 1 value or 0 value to an integer of 0.
+# and then we use the bool function to convert this to a boolean, the way python boolean works is a 0 will convert into a false, and then 1 will convert into true.
+# thats why we have a 1 here because this is the default value, if the debug setting doesn't exist,
+#so when we run our application on the vagrant server, we are not going to specify debugs equal 0,
+# so it is going to default to 1 which is going to be converted to true, thats mean when we run our server on local machine, it is going to be in debug mode.
+# but then if it is run on our server, the debug mode is going to be disabled
+DEBUG = bool(int(os.environment,get('DEEBUG',1)))
 
 ALLOWED_HOSTS = []
 
@@ -123,3 +145,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'profiles_api.UserProfile'
+# here we will add a static root
+# the static root is the location where the django will store all of the static files when we run our collect static command,
+# so make sure you save the setting.py file and then let just open up the setup again.
+STATIC_ROOT= 'static/'
+
+# we need to run one more command to make sure this setup script is executable, so when you send a file to a server,
+# the file needs to have the permissions to be executable when you want to run it as an executable script
