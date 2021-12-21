@@ -31,15 +31,22 @@ ALLOWED_HOSTS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3030',
     'ec2-18-188-124-105.us-east-2.compute.amazonaws.com',
     '127.0.0.1'
+]
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    'ec2-18-188-124-105.us-east-2.compute.amazonaws.com',
+    '127.0.0.1'
+    'http://localhost:3030',
 ]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-'corsheaders',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -65,6 +72,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'profiles_project.urls'
 CORS_ALLOWED_ORIGINS=True
 CORS_ALLOWED_ORIGIN_REGEXES=True
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS=True
 
 TEMPLATES = [
