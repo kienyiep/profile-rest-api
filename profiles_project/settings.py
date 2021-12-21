@@ -30,6 +30,11 @@ ALLOWED_HOSTS = [
     '127.0.0.1'
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    'ec2-18-188-124-105.us-east-2.compute.amazonaws.com',
+    '127.0.0.1'
+]
+
 
 # Application definition
 
