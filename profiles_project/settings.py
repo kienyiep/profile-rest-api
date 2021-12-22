@@ -26,14 +26,14 @@ SECRET_KEY = 'irov%c3wn78uylxsb#l&la%-h&$0f@!v*h_kduaru8hg8$eyc)'
 DEBUG = bool(int(os.environ.get('DEBUG',1)))
 
 ALLOWED_HOSTS = [
-    'ec2-3-144-85-231.us-east-2.compute.amazonaws.com'
+    'ec2-3-17-23-32.us-east-2.compute.amazonaws.com'
     '127.0.0.1'
 ]
 
 # Application definition
 
 INSTALLED_APPS = [
-    'corsheaders',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,7 +46,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -57,7 +57,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'profiles_project.urls'
-CORS_ALLOW_ALL_ORIGINS=True
+
 
 
 TEMPLATES = [
