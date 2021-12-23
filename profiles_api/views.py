@@ -10,9 +10,9 @@ from rest_framework import filters
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
 """This will ensure that the viewset is read only if the user is not authenticated"""
-"""from rest_framework.permissions import IsAuthenticatedOrReadOnly"""
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 """We use IsAuthenticated only which will block access to the entire endpoint unless the user is authenticated, only the authenticated user can view it"""
-from rest_framework.permissions import IsAuthenticated
+"""from rest_framework.permissions import IsAuthenticated"""
 from profiles_api import serializers
 """We will use this to tell the API what data to expect while making post,put and patch to our requests to our api"""
 from profiles_api import models
@@ -134,7 +134,7 @@ class UsersPhonebookViewSet(viewsets.ModelViewSet):
     """So this set up a basic model viewset that allow us to create and manage feed item objects in the database"""
     permission_classes = (
         permissions.UpdateOwnStatus,
-        IsAuthenticated
+        IsAuthenticatedOrReadOnly
     )
 
 
