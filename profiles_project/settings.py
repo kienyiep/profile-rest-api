@@ -43,10 +43,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'profiles_api',
+   'corsheaders',
 ]
 
 MIDDLEWARE = [
-
+    'corsheaders.middleware.CorsMiddleware'
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -57,7 +58,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'profiles_project.urls'
-
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 TEMPLATES = [
